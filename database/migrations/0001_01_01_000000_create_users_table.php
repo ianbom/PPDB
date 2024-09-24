@@ -19,14 +19,14 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('foto')->nullable();
-            $table->string('nisn')->default('');
+            $table->string('nisn')->nullable();
             $table->enum('agama', ['islam', 'kristen', 'katholik', 'hindu', 'budha', 'konghucu'])->nullable();
-            $table->string('alamat')->default('');
+            $table->string('alamat')->nullable();
             $table->date('tgl_lahir')->nullable();
             $table->string('tempat_lahir')->nullable();
             $table->boolean('gender')->default(false);  // (0: Perempuan, 1: Laki-laki)
             $table->string('hp')->nullable();
-            $table->string('sekolah')->default('');
+            $table->string('sekolah')->nullable();
             $table->enum('status', ['verifikasi_data', 'lolos_administrasi', 'diterima', 'ditolak'])->nullable();
             $table->boolean('is_admin')->default(false);
             $table->string('nama_ayah')->nullable();

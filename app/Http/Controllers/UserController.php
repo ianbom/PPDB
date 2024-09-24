@@ -14,10 +14,104 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function indexAdmin()
     {
-
+        $users = User::with('dokumen', 'jalur')->where('is_admin', false)->get();
+        return Inertia::render('DashboardAdmin', ['users' => $users]);
     }
+
+    public function showAdmin($id)
+{
+    $user = User::with('dokumen', 'jalur')->findOrFail($id);
+    return view('admin.user_detail', ['user' => $user]);
+}
+
+    public function lolosAdm($id){
+    $user = User::with('dokumen', 'jalur')->where('is_admin', false)->findOrFail($id);
+    $user->status = 'lolos_administrasi';
+    $user->save();
+
+    return redirect()->back();
+    }
+
+    public function ditolak($id){
+        $user = User::with('dokumen', 'jalur')->where('is_admin', false)->findOrFail($id);
+        $user->status = 'ditolak';
+        $user->save();
+
+        return redirect()->back();
+    }
+
+    public function diterima($id){
+        $user = User::with('dokumen', 'jalur')->where('is_admin', false)->findOrFail($id);
+        $user->status = 'diterima';
+        $user->save();
+
+        return redirect()->back();
+    }
+
+    public function bulkLolosAdm(Request $request)
+{
+    try {
+        // Validasi bahwa setidaknya ada satu pengguna yang dipilih
+        $request->validate([
+            'selected_users' => 'required|array',
+            'selected_users.*' => 'exists:users,id',
+        ]);
+
+        // Meloloskan administrasi pengguna yang dipilih
+        User::whereIn('id', $request->selected_users)
+            ->where('is_admin', false) // Pastikan hanya pengguna biasa
+            ->update(['status' => 'lolos_administrasi']);
+
+        return redirect()->back()->with('success', 'Pengguna yang dipilih berhasil diloloskan administrasi.');
+    } catch (\Throwable $th) {
+        return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
+    }
+}
+
+public function bulkDitolak(Request $request)
+{
+    try {
+        // Validasi bahwa setidaknya ada satu pengguna yang dipilih
+        $request->validate([
+            'selected_users' => 'required|array',
+            'selected_users.*' => 'exists:users,id',
+        ]);
+
+        // Update status menjadi 'ditolak' untuk pengguna yang dipilih
+        User::whereIn('id', $request->selected_users)
+            ->where('is_admin', false)
+            ->update(['status' => 'ditolak']);
+
+        return redirect()->back()->with('success', 'Pengguna yang dipilih berhasil ditolak.');
+    } catch (\Throwable $th) {
+        return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
+    }
+}
+
+public function bulkDiterima(Request $request)
+{
+    try {
+        // Validasi bahwa setidaknya ada satu pengguna yang dipilih
+        $request->validate([
+            'selected_users' => 'required|array',
+            'selected_users.*' => 'exists:users,id',
+        ]);
+
+        // Update status menjadi 'diterima' untuk pengguna yang dipilih
+        User::whereIn('id', $request->selected_users)
+            ->where('is_admin', false)
+            ->update(['status' => 'diterima']);
+
+        return redirect()->back()->with('success', 'Pengguna yang dipilih berhasil diterima.');
+    } catch (\Throwable $th) {
+        return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
+    }
+}
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -63,7 +157,8 @@ class UserController extends Controller
                 'jalur' => $jalur,
             ]);
         } catch (\Throwable $th) {
-            throw $th;
+            return response()->json(['Error' => $th]);
+
         }
 
     }
@@ -124,15 +219,16 @@ class UserController extends Controller
         $user->pendidikan_ibu = $request->input('pendidikan_ibu');
         $user->pendapatan_ayah = $request->input('pendapatan_ayah');
         $user->pendapatan_ibu = $request->input('pendapatan_ibu');
+
         if ($request->hasFile('foto')) {
             $imagePath = $request->file('foto')->store('fotos', 'public');
         }
         $user->foto = $imagePath;
 
         $user->save();
-        return redirect()->route('user.show');
+        return response()->json('sukses');
         } catch (\Throwable $th) {
-            return response()->json('Error anjay : ', $th);
+          return response()->json(['Error' => $th]);
         }
 
 }

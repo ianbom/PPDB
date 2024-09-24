@@ -32,6 +32,18 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/tes', [ProfileController::class, 'user'])->name('user.index');
 
+//Admin
+Route::get('/admin/user', [UserController::class, 'indexAdmin'])->name('admin.user.index');
+Route::get('/admin/user/show/{id}', [UserController::class, 'showAdmin'])->name('admin.user.show');
+Route::put('/admin/user/lolosAdm/{id}', [UserController::class, 'lolosAdm'])->name('admin.user.lolosAdm');
+Route::put('/admin/user/ditolak/{id}', [UserController::class, 'ditolak'])->name('admin.user.ditolak');
+Route::put('/admin/user/diterima/{id}', [UserController::class, 'diterima'])->name('admin.user.diterima');
+Route::put('/admin/user/bulkLolosAdm', [UserController::class, 'bulkLolosAdm'])->name('admin.user.bulkLolosAdm');
+Route::put('/admin/user/bulkDitolak', [UserController::class, 'bulkDitolak'])->name('admin.user.bulkDitolak');
+Route::put('/admin/user/bulkDiterima', [UserController::class, 'bulkDiterima'])->name('admin.user.bulkDiterima');
+
+
+
 //Siswa
 Route::get('/user/show', [UserController::class, 'show'])->name('user.show');
 Route::get('/user/edit', [UserController::class, 'edit'])->name('user.edit');
@@ -60,6 +72,11 @@ Route::post('/dokumen/kk', [DokumenController::class, 'updateKK'])->name('dokume
 Route::post('/dokumen/updateIjazah', [DokumenController::class, 'updateIjazah'])->name('dokumen.updateIjazah');
 Route::post('/dokumen/updateRaport', [DokumenController::class, 'updateRaport'])->name('dokumen.updateRaport');
 Route::post('/dokumen/updateTambahan', [DokumenController::class, 'updateTambahan'])->name('dokumen.updateTambahan');
+
+
+
+
+
 
 
 require __DIR__.'/auth.php';
