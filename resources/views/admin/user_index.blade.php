@@ -31,7 +31,7 @@
                     <th>#</th>
                     <th>Nama</th>
                     <th>Email</th>
-                    <th>NISN</th>
+                    <th>NISNcmc</th>
                     <th>Jalur Pendaftaran</th>
                     <th>Status</th>
                     <th>Aksi</th>

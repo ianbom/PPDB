@@ -41,9 +41,10 @@ const DokumenCreate = () => {
     >
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full relative">
         {/* Header */}
+        <h6 className="text-[#1A4CB3] mb-2 text-sm font-bold">Pemberkasan</h6>
         <h1 className="text-3xl font-semibold text-gray-800 mb-2">Berkas Siswa</h1>
         <p className="text-gray-500 mb-6">Lengkapi Berkas yang dibutuhkan dibawah ini</p>
-        <div className="w-full h-1 bg-blue-600 mb-6"></div>
+        <div className="w-full h-2 bg-[#1A4CB3] rounded-lg mb-6"></div>
 
         {/* Form */}
         <form onSubmit={handleSubmit}>
@@ -53,7 +54,7 @@ const DokumenCreate = () => {
             <div className="flex flex-col">
               <label htmlFor="kk" className="font-medium text-gray-700 mb-1">Identitas Diri</label>
               <div className="flex items-center rounded-lg border" style={{ borderColor: '#1A4CB3' }}>
-                <label className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer mr-2">
+                <label className="bg-[#E8EDF7] text-[#1A4CB3] font-semibold py-2 px-4 rounded-lg cursor-pointer mr-2">
                   Pilih File
                   <input
                     type="file"
@@ -70,8 +71,9 @@ const DokumenCreate = () => {
             {/* Ijazah SMP */}
             <div className="flex flex-col">
               <label htmlFor="ijazah" className="font-medium text-gray-700 mb-1">Ijazah SMP</label>
-              <div className="flex items-center">
-                <label className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer mr-2">
+         <div className="flex items-center rounded-lg border" style={{ borderColor: '#1A4CB3' }}>
+
+                <label className="bg-[#E8EDF7] text-[#1A4CB3] font-semibold py-2 px-4 rounded-lg cursor-pointer mr-2">
                   Pilih File
                   <input
                     type="file"
@@ -88,8 +90,9 @@ const DokumenCreate = () => {
             {/* Sertifikat Lomba */}
             <div className="flex flex-col">
               <label htmlFor="raport" className="font-medium text-gray-700 mb-1">Sertifikat Lomba</label>
-              <div className="flex items-center">
-                <label className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer mr-2">
+                            <div className="flex items-center rounded-lg border" style={{ borderColor: '#1A4CB3' }}>
+
+                <label className="bg-[#E8EDF7] text-[#1A4CB3] font-semibold py-2 px-4 rounded-lg cursor-pointer mr-2">
                   Pilih File
                   <input
                     type="file"
@@ -106,8 +109,9 @@ const DokumenCreate = () => {
             {/* Tambahan */}
             <div className="flex flex-col">
               <label htmlFor="tambahan" className="font-medium text-gray-700 mb-1">Tambahan</label>
-              <div className="flex items-center">
-                <label className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer mr-2">
+                            <div className="flex items-center rounded-lg border" style={{ borderColor: '#1A4CB3' }}>
+
+                <label className="bg-[#E8EDF7] text-[#1A4CB3] font-semibold py-2 px-4 rounded-lg cursor-pointer mr-2">
                   Pilih File
                   <input
                     type="file"
@@ -126,9 +130,9 @@ const DokumenCreate = () => {
           <div className="flex justify-end mt-6">
             <button
               type="submit"
-              className="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700"
+              className="bg-[#1A4CB3] text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700"
             >
-              Simpan
+              SIM
             </button>
           </div>
         </form>
