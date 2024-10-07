@@ -51,82 +51,58 @@ const UserList = ({ users, successMessage }) => {
         </button>
       </div>
 
-      <table className="min-w-full bg-white border border-gray-300 rounded-lg overflow-hidden">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="p-3">
-              <input
-                type="checkbox"
-                onChange={handleSelectAll}
-              />
-            </th>
-            <th className="p-3">#</th>
-            <th className="p-3">Nama</th>
-            <th className="p-3">Email</th>
-            <th className="p-3">NISN</th>
-            <th className="p-3">Jalur Pendaftaran</th>
-            <th className="p-3">Status</th>
-            <th className="p-3">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.length > 0 ? (
-            users.map((user, index) => (
-              <tr key={user.id} className="border-b">
-                <td className="p-3">
-                  <input
-                    type="checkbox"
-                    checked={selectedUsers.includes(user.id)}
-                    onChange={() => handleSelectUser(user.id)}
-                  />
-                </td>
-                <td className="p-3">{index + 1}</td>
-                <td className="p-3">{user.name}</td>
-                <td className="p-3">{user.email}</td>
-                <td className="p-3">{user.nisn}</td>
-                <td className="p-3">{user.jalur?.nama_jalur || 'Belum memilih jalur'}</td>
-                <td className="p-3">{user.status || 'Status belum ditentukan'}</td>
-                <td className="p-3 flex space-x-2">
-                  <a
-                    href={`/admin/user/${user.id}`}
-                    className="bg-blue-400 text-white px-2 py-1 rounded hover:bg-blue-500"
-                  >
-                    Detail
-                  </a>
-                  <button
-                    className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
-                    onClick={() => console.log(`Lolos Administrasi ${user.id}`)}
-                  >
-                    Lolos Administrasi
-                  </button>
-                  <button
-                    className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
-                    onClick={() => console.log(`Terima ${user.id}`)}
-                  >
-                    Terima
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                    onClick={() => console.log(`Tolak ${user.id}`)}
-                  >
-                    Tolak
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="8" className="text-center p-3">Tidak ada data pengguna.</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
-  );
-};
-
-export default UserList;
-
+        {{-- User table --}}
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="select-all"></th>
+                    <th>#</th>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>NISN</th>
+                    <th>Jalur Pendaftaran</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($user as $index => $u)
+                    <tr>
+                        <td><input type="checkbox" name="selected_users[]" value="{{ $u->id }}"></td>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $u->name }}</td>
+                        <td>{{ $u->email }}</td>
+                        <td>{{ $u->nisn }}</td>
+                        <td>{{ $u->jalur->nama_jalur ?? 'Belum memilih jalur' }}</td>
+                        <td>{{ $u->status ?? 'Status belum ditentukan' }}</td>
+                        <td>
+                            <a href="{{ route('admin.user.show', $u->id) }}" class="btn btn-info btn-sm">Detail</a>
+                            <form action="{{ route('admin.user.lolosAdm', $u->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin meloloskan administrasi pengguna ini?')">Lolos Administrasi</button>
+                            </form>
+                            <form action="{{ route('admin.user.diterima', $u->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menerima  pengguna ini?')">Terima</button>
+                            </form>
+                            <form action="{{ route('admin.user.ditolak', $u->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('PUT')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menolak pengguna ini?')">Tolak</button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="8" class="text-center">Tidak ada data pengguna.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </form>
+</div>
 
 {{-- Script untuk Select All checkbox dan form submission --}}
 <script>

@@ -21,7 +21,7 @@ class DokumenController extends Controller
         $raport = Dokumen::where('id', $userId)->where('tipe_dokumen', 'raport')->first();
         $tambahan = Dokumen::where('id', $userId)->where('tipe_dokumen', 'tambahan')->first();
 
-        return view('dokumen')
+        return Inertia::render('User/Dokumen')
         ->with('kk', $kk)
         ->with('ijazah', $ijazah)
         ->with('raport', $raport)
