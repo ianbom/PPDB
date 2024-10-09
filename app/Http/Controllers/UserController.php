@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -110,7 +111,63 @@ public function bulkDiterima(Request $request)
     }
 }
 
+    public function pengumuman(){
+        try {
+            $userId = Auth::id();
+            $siswa = User::with('jalur')
+                ->where('id', $userId)
+                ->first();  // Mengambil satu data
 
+            if (!$siswa) {
+                return response()->json(['err' => 'User not found'], 404);
+            }
+
+            $hasil = $siswa->status;
+
+            if ($hasil == 'lolos_administrasi') {
+                return view('pengumuman.pengumuman_lolosAdm', ['siswa'=> $siswa]);
+                //return response()->json(['siswa' => $siswa]);
+            } elseif ($hasil == 'diterima') {
+                return view('pengumuman.pengumuman_diterima', ['siswa' => $siswa]);
+                //return response()->json(['siswa' => $siswa]);
+            } else {
+                return view('pengumuman.pengumuman_ditolak', ['siswa' => $siswa]);
+                //return response()->json(['siswa' => $siswa]);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(['err' => $th->getMessage()]);
+        }
+    }
+
+
+    public function kartuPendaftaranPdf(){
+
+        $userId = Auth::id();
+        $siswa = User::with('jalur')->where('id', $userId)->first();
+        $pdf = PDF::loadView('kartu.kartu_pendaftaran', ['siswa'=> $siswa]);
+        return $pdf->download('kartu-pendaftaran.pdf');
+       // return response()->json(['siswa'=>$siswa]);
+    }
+
+    public function kartuDiterimaPdf(){
+        $userId = Auth::id();
+        $siswa = User::with('jalur')->where('id', $userId)->first();
+        $pdf = PDF::loadView('kartu.kartu_diterima', ['siswa'=> $siswa]);
+        return $pdf->download('kartu-diterima.pdf');
+
+        //return response()->json(['siswa'=>$siswa]);
+    }
+
+//     public function generatePDF($id)
+// {
+//     $antrian = AntrianTable::with('patient', 'checkup_type', 'doctor')->findOrFail($id);
+
+//     // Use the correct method to load the view into the PDF
+//     $pdf = PDF::loadView('klinik.admin.antrian.pdf_antrian', ['antrian' => $antrian]);
+
+//     // Return the generated PDF as a download
+//     return $pdf->download('antrian-detail.pdf');
+// }
 
 
     /**

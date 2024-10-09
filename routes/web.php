@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\DokumenController;
+use App\Http\Controllers\JalurController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -75,8 +77,31 @@ Route::post('/dokumen/updateTambahan', [DokumenController::class, 'updateTambaha
 
 
 
+//Admin Jalur
+Route::get('/jalur/index', [JalurController::class, 'index'])->name('jalur.index');
+Route::get('/jalur/edit/{id}', [JalurController::class, 'edit'])->name('jalur.edit');
+Route::post('/jalur/store', [JalurController::class, 'store'])->name('jalur.store');
+Route::put('/jalur/update/{id}', [JalurController::class, 'update'])->name('jalur.update');
+
+//Pengumuman
+Route::get('/pengumuman', [UserController::class, 'pengumuman'])->name('pengumuman.index');
+Route::get('/kartuPendaftaran', [UserController::class, 'kartuPendaftaranPdf'])->name('pengumuman.kartuPendaftaran');
+Route::get('/kartuDiterima', [UserController::class, 'kartuDiterimaPdf'])->name('pengumuman.kartuDiterima');
 
 
+
+//Alur Registrasi
+Route::get('/registrasi/profile', [SiswaController::class, 'editProfile'])->name('edit.profile.siswa');
+Route::put('/registrasi/profile', [SiswaController::class, 'updateProfile'])->name('update.profile.siswa');
+Route::get('/registrasi/dataPribadi', [SiswaController::class, 'editDataPribadi'])->name('edit.dataPribadi.siswa');
+Route::put('/registrasi/dataPribadi', [SiswaController::class, 'updateDataPribadi'])->name('update.dataPribadi.siswa');
+Route::get('/registrasi/dataAyah', [SiswaController::class, 'editDataAyah'])->name('edit.dataAyah.siswa');
+Route::put('/registrasi/dataAyah', [SiswaController::class, 'updateDataAyah'])->name('update.dataAyah.siswa');
+Route::get('/registrasi/dataIbu', [SiswaController::class, 'editDataIbu'])->name('edit.dataIbu.siswa');
+Route::put('/registrasi/dataIbu', [SiswaController::class, 'updateDataIbu'])->name('update.dataIbu.siswa');
+Route::get('/registrasi/dataJalur', [SiswaController::class, 'editDataJalur'])->name('edit.dataJalur.siswa');
+Route::put('/registrasi/dataJalur', [SiswaController::class, 'updateDataJalur'])->name('update.dataJalur.siswa');
+Route::get('/registrasi/verifikasi', [SiswaController::class, 'indexVerifikasi'])->name('index.verifikasi.siswa');
 
 
 require __DIR__.'/auth.php';

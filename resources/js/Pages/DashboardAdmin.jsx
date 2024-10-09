@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Inertia } from '@inertiajs/inertia';
-import { FaSearch } from 'react-icons/fa'; // Importing the search icon
+// import { FaSearch } from 'react-icons/fa'; // Importing the search icon
 
 const Users = ({ users, success }) => {
     const [selectedUsers, setSelectedUsers] = useState([]);
@@ -67,8 +67,8 @@ const Users = ({ users, success }) => {
             </div>
 
             {/* Search Bar */}
-            <div className="mb-2 mt-4 flex justify-end">
-                <div className="relative w-full max-w-xs"> {/* Set max width for better responsiveness */}
+            {/* <div className="mb-2 mt-4 flex justify-end">
+                <div className="relative w-full max-w-xs">
                     <FaSearch className="absolute left-3 top-2 text-gray-500" />
                     <input
                         type="text"
@@ -78,7 +78,7 @@ const Users = ({ users, success }) => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
-            </div>
+            </div> */}
 
             {/* Daftar Pengguna Card */}
             <div className="bg-white rounded-[12px] shadow-lg p-5">
